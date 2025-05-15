@@ -1,4 +1,5 @@
 import sqlite3
+# !!!
 
 def main():
     print("Programma ļauj apskatīt edienreizu datubāzi un veikt dažādas darbības ar tās ierakstiem.")
