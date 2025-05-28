@@ -22,13 +22,9 @@ def izvele(c):
 
         print("2 - Pievienot ēdienreizes")
 
-        print("3 - Saglabāt ēdienreizes")
+        print("3 - apskatīt atlikušās dienas kalorijas")
 
-        print("4- apskatīt atlikušās dienas kalorijas")
-
-        print("5- pārrestartēt dienu")
-
-        print("0 - Iziet")
+        print("4 - Iziet")
 
        
 
@@ -44,19 +40,9 @@ def izvele(c):
 
         elif choice == "3":
 
-            reizes(c)
-
-        elif choice == "4":
-
             atlikusas_kalorijas(c)
 
-        elif choice == "5":
-
-            parrestartet_dienu(c)
-
-           
-
-        elif choice == "0":
+        elif choice == "4":
 
             print("Programma beidzas.") #Vairāk tālākas darbības nenotiek
 
@@ -94,9 +80,8 @@ def aprekins_nep(c):
 
             svars = float(input("Ievadi savu svaru kilogramos"))
 
-            jauta = input("Kāds ir tavs aktivitātes līmenis?-Mazkustīgs,Viegls,Vidējs,Augsts,Ļoti augsts")
+            jauta = input("Kāds ir tavs aktivitātes līmenis?-Mazkustīgs,Viegls,Vidējs,Augsts,Ļoti augsts").capitalize()
 
-            jauta.capitalize()
 
             akt_limenis = {"Mazkustīgs": 1.2,"Viegls": 1.375,"Vidējs": 1.55,"Augsts": 1.725,"Ļoti augsts": 1.9}#Vārdnīca ar koeficientiem, ko izmantosim priekš aprēķiniem
 
@@ -197,11 +182,11 @@ def ediens(c):
 
             print("Kļūda datu ievadē!")
 
-def reizes(c, id,edienreize, kalorijas_ediena):
+#def reizes(c, id,edienreize, kalorijas_ediena):
 
-    for id, edienreize, kalorijas_ediena in ediens:
+    #for id, edienreize, kalorijas_ediena in ediens:
 
-        c.execute(f"INSERT INTO Reizes (id, edienreize, kalorijas_ediena) VALUES \"{id}\" \"{edienreize}\"\"{kalorijas_ediena}\"")
+        #c.execute(f"INSERT INTO Reizes (id, edienreize, kalorijas_ediena) VALUES \"{id}\" \"{edienreize}\"\"{kalorijas_ediena}\"")
 
    
 
@@ -221,16 +206,14 @@ def atlikusas_kalorijas(c):
  #Programma saskaita visas kalorijas no konkrētās dienas ēdieniem
             nep_kalorijas = rez[0]
 
-            c.execute(f"SELECT SUM(kalorijas_ediena) FROM Reizes WHERE id = {id}") 
+            c.execute(f"SELECT SUM(kalorijas_ediena) FROM ediens")
+            sum_rez = c.fetchone()
+            uznemtas_kalorijas = sum_rez[0] if sum_rez[0] is not None else 0
+            
 
-            visas_kalorijas = c.fetchone()[0]
+            atlikusas = nep_kalorijas - uznemtas_kalorijas
 
-            if visas_kalorijas is None:
-
-                visas_kalorijas = 0
-
-            atlikusas = nep_kalorijas - visas_kalorijas
-
+            
             print(f"Atlikušās dienas kalorijas: {atlikusas}")#Programma parāda un aprēķina cik kalorijas vēl lietotājs var ēst
 
         else:
@@ -243,19 +226,19 @@ def atlikusas_kalorijas(c):
 
    
 
-def parrestartet_dienu(c):
+#def parrestartet_dienu(c):
 
-    try:
+    #try:
 
-        id = int(input("Ievadi savu id: "))
+        #id = int(input("Ievadi savu id: "))
 
-        c.execute(f"DELETE FROM Reizes WHERE id = {id}) #programma izdzēš visu informāciju par iepriekšējās dienas ēšanas paradumiem.")
+        #c.execute(f"DELETE FROM Reizes WHERE id = {id}) #programma izdzēš visu informāciju par iepriekšējās dienas ēšanas paradumiem.")
 
-        print("Diena veiksmīgi pārstartēta.")
+        #print("Diena veiksmīgi pārstartēta.")
 
-    except ValueError:
+    #except ValueError:
 
-        print("Kļūda datu ievadē!")
+        #print("Kļūda datu ievadē!")
 
 if __name__ == "__main__":
 
